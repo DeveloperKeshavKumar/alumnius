@@ -27,6 +27,16 @@ const userSchema = new mongoose.Schema(
          enum: ['CSE', 'ME', 'ECE', 'CE', 'EE', 'AI/ML'],
          required: true
       },
+      type: {
+         type: String,
+         enum: ['Current', 'Alumni'],
+         default: 'Current',
+         required: true
+      },
+      linkedinProfile: {
+         type: String,
+         default: null
+      },
       gradYear: {
          type: Number,
          required: true

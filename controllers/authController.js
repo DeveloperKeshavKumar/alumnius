@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res) => {
    try {
-      console.log(req.body);
+      // console.log(req.body);
       const { name, email, password, college_Id, stream, gradYear, occupation } = req.body;
 
       // Check if user already exists
