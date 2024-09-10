@@ -1,4 +1,5 @@
 const JobPosting = require('../models/jobs');
+const User = require('../models/user');
 
 exports.createJobPosting = async (req, res) => {
    try {
@@ -7,6 +8,11 @@ exports.createJobPosting = async (req, res) => {
       const newJobPosting = new JobPosting({ title, description, company, location, applyLink, postedBy });
 
       const savedJobPosting = await newJobPosting.save();
+      await User.findByIdAndUpdate(
+         req.user,
+         { $push: { jobpostings: savedJobPosting._id } },
+         { new: true }
+       );
       res.status(201).json({ message: "Job posting created successfully", jobPosting: savedJobPosting });
    } catch (error) {
       console.error(error.message);
