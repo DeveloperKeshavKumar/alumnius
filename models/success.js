@@ -28,4 +28,4 @@ const successSchema = new mongoose.Schema(
    { timestamps: true }
 );
 
-module.exports = mongoose.model('JobPosting', successSchema);
+module.exports = mongoose.model('SuccessStory', successSchema);
