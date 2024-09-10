@@ -1,0 +1,70 @@
+const User = require('../models/user');
+
+exports.getAllAlumnis = async (req, res) => {
+   try {
+      const alumnis = await User.find({ type: 'Alumni' }).select('-password -connections -jobpostings -successstories -college_Id -college_email -createdAt -updatedAt');
+      res.status(200).json(alumnis);
+   } catch (error) {
+      res.status(500).send('Server Error');
+   }
+};
+
+exports.getAlumniById = async (req, res) => {
+   try {
+      const alumni = await User.findById(req.params.id).select('-password -connections -jobpostings -college_email');
+      if (!alumni) return res.status(404).json({ message: 'Alumni not found' });
+      res.status(200).json(alumni);
+   } catch (error) {
+      res.status(500).send('Server Error');
+   }
+};
+
+exports.connectWithAlumni = async (req, res) => {
+   try {
+      const userId = req.user;
+      const alumniId = req.params.id;
+
+      if (userId === alumniId) return res.status(400).json({ message: 'You cannot connect with yourself' });
+
+      const user = await User.findById(userId);
+      const alumni = await User.findById(alumniId);
+
+      if (!alumni) return res.status(404).json({ message: 'Alumni not found' });
+
+      if (user.connections.includes(alumniId)) return res.status(400).json({ message: 'Already connected' });
+
+      user.connections.push(alumniId);
+      alumni.connections.push(userId);
+
+      await user.save();
+      await alumni.save();
+
+      res.status(200).json({ message: 'Connected successfully' });
+   } catch (error) {
+      res.status(500).send('Server Error');
+   }
+};
+
+exports.removeConnection = async (req, res) => {
+   try {
+      const userId = req.user;
+      const alumniId = req.params.id || req.body.connectionId;
+
+      const user = await User.findById(userId);
+      const alumni = await User.findById(alumniId);
+
+      if (!alumni) return res.status(404).json({ message: 'Alumni not found' });
+
+      if (!user.connections.includes(alumniId)) return res.status(400).json({ message: 'Not connected' });
+
+      user.connections = user.connections.filter(id => id.toString() !== alumniId);
+      alumni.connections = alumni.connections.filter(id => id.toString() !== userId);
+
+      await user.save();
+      await alumni.save();
+
+      res.status(200).json({ message: 'Disconnected successfully' });
+   } catch (error) {
+      res.status(500).send('Server Error');
+   }
+};
