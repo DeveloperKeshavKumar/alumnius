@@ -12,7 +12,7 @@ exports.createJobPosting = async (req, res) => {
          req.user,
          { $push: { jobpostings: savedJobPosting._id } },
          { new: true }
-       );
+      );
       res.status(201).json({ message: "Job posting created successfully", jobPosting: savedJobPosting });
    } catch (error) {
       console.error(error.message);
@@ -70,6 +70,12 @@ exports.deleteJobPosting = async (req, res) => {
       if (!jobPosting) {
          return res.status(404).json({ message: "Job posting not found" });
       }
+
+      await User.findByIdAndUpdate(
+         req.user,
+         { $pull: { jobpostings: jobPosting._id } },
+         { new: true }
+      );
 
       res.status(200).json({ message: "Job posting deleted successfully" });
    } catch (error) {
