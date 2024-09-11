@@ -5,9 +5,8 @@ const User = require('../models/user');
 exports.createSuccessStory = async (req, res) => {
 
    try {
-      const { title, description } = req.body;
+      const { title, description, imageUrl } = req.body;
 
-      let imageUrl = null;
       if (req.files && req.files.image) {
          const image = req.files.image;
          const uploadPath = path.join(__dirname, '../uploads/', image.name);
@@ -63,7 +62,7 @@ exports.getSuccessStoryById = async (req, res) => {
 };
 
 exports.updateSuccessStory = async (req, res) => {
-   const { title, description } = req.body;
+   const { title, description, imageUrl } = req.body;
 
    try {
       let story = await SuccessStory.findById(req.params.id);
@@ -74,13 +73,13 @@ exports.updateSuccessStory = async (req, res) => {
 
       story.title = title || story.title;
       story.description = description || story.description;
-      if (req.files && req.files.image) {
-         const image = req.files.image;
-         const uploadPath = path.join(__dirname, '../uploads/', image.name);
-         await image.mv(uploadPath);
+      // if (req.files && req.files.image) {
+      //    const image = req.files.image;
+      //    const uploadPath = path.join(__dirname, '../uploads/', image.name);
+      //    await image.mv(uploadPath);
 
-         story.imageUrl = `/uploads/${image.name}` || story.imageUrl;
-      }
+      // }
+      story.imageUrl = imageUrl || story.imageUrl;
 
       const updatedStory = await story.save();
       res.status(200).json(updatedStory);
