@@ -13,8 +13,9 @@ exports.getUserProfile = async (req, res) => {
 
 exports.getAllAlumnis = async (req, res) => {
    try {
+      const userLoggedIn = req.cookies.token ? true : false;
       const alumnis = await User.find({ type: 'Alumni' }).select('-password -connections -jobpostings -successstories -college_Id -college_email -createdAt -updatedAt');
-      res.render('alumnis', { title: 'Alumni Directory', alumnis });
+      res.render('alumnis', { title: 'Alumni Directory', alumnis, userLoggedIn });
    } catch (error) {
       res.status(500).send('Server Error');
    }

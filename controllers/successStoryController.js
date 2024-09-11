@@ -38,8 +38,9 @@ exports.createSuccessStory = async (req, res) => {
 
 exports.getAllSuccessStories = async (req, res) => {
    try {
+      const userLoggedIn = req.cookies.token ? true : false;
       const stories = await SuccessStory.find();
-      res.status(200).render('stories', { stories });
+      res.status(200).render('stories', { stories, userLoggedIn });
    } catch (error) {
       console.error(error.message);
       res.status(500).send("Server Error");

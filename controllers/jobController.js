@@ -22,8 +22,9 @@ exports.createJobPosting = async (req, res) => {
 
 exports.getAllJobPostings = async (req, res) => {
    try {
+      const userLoggedIn = req.cookies.token ? true : false;
       const jobs = await JobPosting.find().populate('postedBy', 'name');
-      res.status(200).render('jobs', { jobs });
+      res.status(200).render('jobs', { jobs, userLoggedIn });
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Server error" });

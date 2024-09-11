@@ -21,8 +21,9 @@ exports.createEvent = async (req, res) => {
 
 exports.getEvents = async (req, res) => {
    try {
+      const userLoggedIn = req.cookies.token ? true : false;
       const events = await Event.find().populate('host', 'name');
-      res.status(200).render('events', { events });
+      res.status(200).render('events', { events, userLoggedIn });
    } catch (error) {
       res.status(500).send('Server Error');
    }

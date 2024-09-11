@@ -75,7 +75,7 @@ exports.logout = async (req, res) => {
    try {
       // clear cookie token removal 
       res.cookie('token', '', { expires: new Date(0), httpOnly: true, secure: process.env.NODE_ENV === 'Production' });
-      res.status(200).json({ message: "Logged out successfully" });
+      res.redirect('/');
    } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error");
