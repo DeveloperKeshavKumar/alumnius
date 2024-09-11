@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Createport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>User Profile</h1>
+        <form action="/profile/<%= user._id %>" method="POST">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="<%= user.name %>" required>
+            </div>
+            <div class="form-group">
+                <label for="email">College Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="<%= user.email %>" required>
+            </div>
+            <div class="form-group">
+                <label for="college_Id">College ID</label>
+                <input type="text" class="form-control" id="college_Id" name="college_Id" value="<%= user.college_Id %>" required>
+            </div>
+            <div class="form-group">
+                <label for="stream">Stream</label>
+                <select class="form-control" id="stream" name="stream" required>
+                    <option value="CSE" <%= user.stream === 'CSE' ? 'selected' : '' %>>CSE</option>
+                    <option value="ME" <%= user.stream === 'ME' ? 'selected' : '' %>>ME</option>
+                    <option value="ECE" <%= user.stream === 'ECE' ? 'selected' : '' %>>ECE</option>
+                    <option value="CE" <%= user.stream === 'CE' ? 'selected' : '' %>>CE</option>
+                    <option value="EE" <%= user.stream === 'EE' ? 'selected' : '' %>>EE</option>
+                    <option value="AI/ML" <%= user.stream === 'AI/ML' ? 'selected' : '' %>>AI/ML</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="gradYear">Graduation Year</label>
+                <input type="number" class="form-control" id="gradYear" name="gradYear" value="<%= user.gradYear %>" required>
+            </div>
+            <div class="form-group">
+                <label for="occupation">Occupation</label>
+                <input type="text" class="form-control" id="occupation" name="occupation" value="<%= user.occupation %>">
+            </div>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+        </form>
+
+        <% if (user.type === 'Alumni') { %>
+            <div class="mt-5">
+                <h2>Alumni Actions</h2>
+                <div class="btn-group" role="group">
+                    <a href="/api/v1/jobs/create" class="btn btn-success">Create Jobs</a>
+                    <a href="/api/v1/events/create" class="btn btn-info">Create Events</a>
+                    <a href="/api/v1/stories/create" class="btn btn-warning">Create Success Stories</a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>
