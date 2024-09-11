@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 
 exports.signup = async (req, res) => {
    try {
-      // console.log(req.body);
-      const { name, email, password, college_Id, stream, gradYear, occupation } = req.body;
+      console.log(req.body);
+      const { name, email, password, college_Id, type, stream, gradYear, occupation } = req.body;
 
       // Check if user already exists
       let user = await User.findOne({ college_email: email });
@@ -22,6 +22,7 @@ exports.signup = async (req, res) => {
          name,
          college_email: email,
          college_Id,
+         type,
          stream,
          gradYear,
          occupation,
@@ -34,8 +35,8 @@ exports.signup = async (req, res) => {
 
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      res.status(201).json({ token });
-
+      res.cookie('token', token, { httpOnly: true });
+      res.redirect('/');
    } catch (error) {
       console.error(error);
       res.status(500).send("Internal server error");
@@ -62,17 +63,18 @@ exports.login = async (req, res) => {
       const payload = { user: user.id };
 
       const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-      res.status(201).json({ token });
+      res.cookie('token', token, { httpOnly: true });
+      res.redirect('/');
    } catch (error) {
       console.error(error);
-      res.status(500).send("Internal server error");
+      res.status(500).render('login', { title: 'Login', error: 'Server error' });
    }
 }
 
 exports.logout = async (req, res) => {
    try {
-      // Client-side should handle the token removal (e.g., clearing cookies or localStorage)
+      // clear cookie token removal 
+      res.cookie('token', '', { expires: new Date(0), httpOnly: true, secure: process.env.NODE_ENV === 'Production' });
       res.status(200).json({ message: "Logged out successfully" });
    } catch (error) {
       console.error(error.message);

@@ -22,7 +22,7 @@ exports.createEvent = async (req, res) => {
 exports.getEvents = async (req, res) => {
    try {
       const events = await Event.find().populate('host', 'name');
-      res.status(200).json(events);
+      res.status(200).render('events', { events });
    } catch (error) {
       res.status(500).send('Server Error');
    }
@@ -32,7 +32,7 @@ exports.getEventById = async (req, res) => {
    try {
       const event = await Event.findById(req.params.id).populate('author', 'name college_email');
       if (!event) return res.status(404).json({ message: 'Event not found' });
-      res.status(200).json(event);
+      res.status(200).render('event', { event });
    } catch (error) {
       res.status(500).send('Server Error');
    }

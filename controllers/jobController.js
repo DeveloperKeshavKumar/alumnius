@@ -22,8 +22,8 @@ exports.createJobPosting = async (req, res) => {
 
 exports.getAllJobPostings = async (req, res) => {
    try {
-      const jobPostings = await JobPosting.find().populate('postedBy', 'name');
-      res.status(200).json(jobPostings);
+      const jobs = await JobPosting.find().populate('postedBy', 'name');
+      res.status(200).render('jobs', { jobs });
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Server error" });
@@ -36,7 +36,7 @@ exports.getJobPostingById = async (req, res) => {
       if (!jobPosting) {
          return res.status(404).json({ message: "Job posting not found" });
       }
-      res.status(200).json(jobPosting);
+      res.status(200).render('job', { jobPosting });
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Server error" });

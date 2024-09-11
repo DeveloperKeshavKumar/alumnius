@@ -38,8 +38,8 @@ exports.createSuccessStory = async (req, res) => {
 
 exports.getAllSuccessStories = async (req, res) => {
    try {
-      const successStories = await SuccessStory.find();
-      res.status(200).json(successStories);
+      const stories = await SuccessStory.find();
+      res.status(200).render('stories', { stories });
    } catch (error) {
       console.error(error.message);
       res.status(500).send("Server Error");
@@ -54,7 +54,7 @@ exports.getSuccessStoryById = async (req, res) => {
          return res.status(404).json({ message: "Success story not found" });
       }
 
-      res.status(200).json(story);
+      res.status(200).render('story', { story });
    } catch (error) {
       console.error(error.message);
       res.status(500).send("Server Error");
