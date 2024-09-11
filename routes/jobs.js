@@ -4,6 +4,9 @@ const router = new express.Router();
 const { createJobPosting, getAllJobPostings, getJobPostingById, updateJobPosting, deleteJobPosting } = require('../controllers/jobController');
 const { authMiddleware, isAlumni } = require('../middlewares/authMiddleware');
 
+router.get('/create', (req, res) => {
+   res.render('jobCreate');
+});
 router.post('/create', authMiddleware, isAlumni, createJobPosting);
 router.get('/', getAllJobPostings);
 router.get('/:id', getJobPostingById);
