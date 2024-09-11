@@ -26,11 +26,14 @@
          <img src="<%= story.imageUrl %>" alt="<%= story.title %>" class="img-fluid mt-3">
          <% } %>
 
-            <a href="/stories/<%= story._id %>" class="btn btn-warning">Update</a>
-            <form action="/stories/<%= story._id %>" method="POST" class="d-inline">
+         <br>
+         <br>
+
+            <a href="/api/v1/stories/<%= story._id %>" class="btn btn-warning">Update</a>
+            <form action="/api/v1/stories/<%= story._id %>" method="POST" class="d-inline">
+               <input type="hidden" name="_method" value="DELETE">
                <button type="submit" class="btn btn-danger">Delete</button>
             </form>
-
             <a href="/api/v1/stories" class="btn btn-primary">Back to Success Stories</a>
    </div>
 </body>

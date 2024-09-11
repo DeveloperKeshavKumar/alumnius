@@ -10,7 +10,7 @@
         <h1 class="mb-4">Job Postings</h1>
         <div class="list-group">
             <% jobs.forEach(job => { %>
-                <a href="/jobs/<%= job._id %>" class="list-group-item list-group-item-action">
+                <a href="/api/v1/jobs/<%= job._id %>" class="list-group-item list-group-item-action">
                     <h5 class="mb-1"><%= job.title %></h5>
                     <p class="mb-1"><%= job.description.substring(0, 100) %>...</p>
                     <small><%= job.location %> - <%= job.company %></small>

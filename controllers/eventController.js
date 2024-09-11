@@ -13,7 +13,7 @@ exports.createEvent = async (req, res) => {
          host: req.user
       });
       const savedEvent = await newEvent.save();
-      res.status(201).json(savedEvent);
+      res.status(201).redirect('/api/v1/events');
    } catch (error) {
       res.status(500).send('Server Error');
    }

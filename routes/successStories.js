@@ -10,6 +10,6 @@ router.post('/create', authMiddleware, isAlumni, createSuccessStory);
 router.get('/', getAllSuccessStories);
 router.get('/:id', getSuccessStoryById);
 router.patch('/:id', authMiddleware, isAlumni, updateSuccessStory);
-router.delete('/:id', authMiddleware, isAlumni, deleteSuccessStory);
+router.post('/:id', authMiddleware, isAlumni, deleteSuccessStory);
 
 module.exports = router;

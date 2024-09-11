@@ -7,13 +7,13 @@ exports.createSuccessStory = async (req, res) => {
    try {
       const { title, description, imageUrl } = req.body;
 
-      if (req.files && req.files.image) {
-         const image = req.files.image;
-         const uploadPath = path.join(__dirname, '../uploads/', image.name);
-         await image.mv(uploadPath);
+      // if (req.files && req.files.image) {
+      //    const image = req.files.image;
+      //    const uploadPath = path.join(__dirname, '../uploads/', image.name);
+      //    await image.mv(uploadPath);
 
-         imageUrl = `/uploads/${image.name}`;
-      }
+      //    imageUrl = `/uploads/${image.name}`;
+      // }
 
       const newSuccessStory = new SuccessStory({
          title,
@@ -28,7 +28,7 @@ exports.createSuccessStory = async (req, res) => {
          { $push: { successstories: savedStory._id } },
          { new: true }
       );
-      res.status(201).json(savedStory);
+      res.status(201).redirect('/api/v1/stories');
    } catch (error) {
       console.error(error);
       res.status(500).send("Server Error");
@@ -96,6 +96,9 @@ exports.deleteSuccessStory = async (req, res) => {
       if (!story) {
          return res.status(404).json({ message: "Success story not found" });
       }
+      if (story.author.toString() !== req.user) {
+         return res.status(403).json({ message: 'Not authorized to delete this story' });
+      }
 
       await User.findByIdAndUpdate(
          req.user,
@@ -103,7 +106,7 @@ exports.deleteSuccessStory = async (req, res) => {
          { new: true }
       );
       await story.deleteOne();
-      res.status(200).json({ message: "Success story deleted" });
+      res.status(200).redirect('/api/v1/stories');
    } catch (error) {
       console.error(error.message);
       res.status(500).send("Server Error");

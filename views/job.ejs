@@ -16,7 +16,7 @@
                 <p class="card-text"><strong>Location:</strong> <%= job.location %></p>
                 <p class="card-text"><strong>Posted By:</strong> <%= job.postedBy.name %> (ID: <%= job.postedBy.college_Id %>)</p>
                 <p class="card-text"><strong>Posted At:</strong> <%= job.postedAt.toDateString() %></p>
-                <p class="card-text"><strong>Application Deadline:</strong> <%= job.deadline ? job.deadline.toDateString() : 'N/A' %></p>
+                <p class="card-text"><strong>Application Link:</strong> <%= job.applyLink ? job.applyLink    : 'N/A' %></p>
 
                 <a href="/jobs/<%= job._id %>" class="btn btn-warning">Update</a>
                 <form action="/jobs/<%= job._id %>" method="POST" class="d-inline">
@@ -24,7 +24,7 @@
                 </form>
             </div>
         </div>
-        <a href="/jobs" class="btn btn-primary mt-3">Back to Jobs</a>
+        <a href="/api/v1/jobs" class="btn btn-primary mt-3">Back to Jobs</a>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

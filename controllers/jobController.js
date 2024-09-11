@@ -13,7 +13,7 @@ exports.createJobPosting = async (req, res) => {
          { $push: { jobpostings: savedJobPosting._id } },
          { new: true }
       );
-      res.status(201).json({ message: "Job posting created successfully", jobPosting: savedJobPosting });
+      res.status(201).redirect('/api/v1/jobs');
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Server error" });
@@ -33,11 +33,11 @@ exports.getAllJobPostings = async (req, res) => {
 
 exports.getJobPostingById = async (req, res) => {
    try {
-      const jobPosting = await JobPosting.findById(req.params.id).populate('postedBy', 'name college_email');
-      if (!jobPosting) {
+      const job = await JobPosting.findById(req.params.id).populate('postedBy', 'name college_email');
+      if (!job) {
          return res.status(404).json({ message: "Job posting not found" });
       }
-      res.status(200).render('job', { jobPosting });
+      res.status(200).render('job', { job });
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Server error" });
@@ -57,7 +57,7 @@ exports.updateJobPosting = async (req, res) => {
          return res.status(404).json({ message: "Job posting not found" });
       }
 
-      res.status(200).json({ message: "Job posting updated successfully", jobPosting: updatedPosting });
+      res.status(200).json({ message: "Job posting updated successfully", job: updatedPosting });
    } catch (error) {
       console.error(error.message);
       res.status(500).json({ message: "Server error" });
@@ -66,15 +66,15 @@ exports.updateJobPosting = async (req, res) => {
 
 exports.deleteJobPosting = async (req, res) => {
    try {
-      const jobPosting = await JobPosting.findByIdAndDelete(req.params.id);
+      const job = await JobPosting.findByIdAndDelete(req.params.id);
 
-      if (!jobPosting) {
+      if (!job) {
          return res.status(404).json({ message: "Job posting not found" });
       }
 
       await User.findByIdAndUpdate(
          req.user,
-         { $pull: { jobpostings: jobPosting._id } },
+         { $pull: { jobpostings: job._id } },
          { new: true }
       );
 
