@@ -1,0 +1,33 @@
+<!-- views/alumniDetail.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= alumni.name %> - Alumni Detail</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1><%= alumni.name %></h1>
+        <p><strong>Email:</strong> <%= alumni.college_email %></p>
+        <p><strong>Stream:</strong> <%= alumni.stream %></p>
+        <p><strong>Graduation Year:</strong> <%= alumni.gradYear %></p>
+        <p><strong>Occupation:</strong> <%= alumni.occupation %></p>
+        <p><strong>LinkedIn Profile:</strong> <%= alumni.linkedinProfile || 'Not available' %></p>
+        
+        <h3>Success Stories</h3>
+        <% if (alumni.successstories.length > 0) { %>
+            <ul>
+                <% alumni.successstories.forEach(story => { %>
+                    <li><%= story.title %>: <%= story.content %></li>
+                <% }) %>
+            </ul>
+        <% } else { %>
+            <p>No success stories available.</p>
+        <% } %>
+
+        <a href="/api/v1/alumnis" class="btn btn-primary">Back to Directory</a>
+    </div>
+</body>
+</html>

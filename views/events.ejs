@@ -1,0 +1,25 @@
+<!-- views/events.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Alumni Platform</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Events</h1>
+        <div class="list-group">
+            <% events.forEach(event => { %>
+                <a href="/events/<%= event._id %>" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1"><%= event.title %></h5>
+                    <p class="mb-1"><%= event.description.substring(0, 100) %>...</p>
+                    <small><%= event.date.toDateString() %> - <%= event.type %></small>
+                </a>
+            <% }) %>
+        </div>
+        <a href="/" class="btn btn-primary mt-4">Back to Home</a>
+    </div>
+</body>
+</html>

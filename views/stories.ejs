@@ -1,0 +1,25 @@
+<!-- views/successStories.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success Stories - Alumni Platform</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Success Stories</h1>
+        <div class="list-group">
+            <% stories.forEach(story => { %>
+                <a href="/success-stories/<%= story._id %>" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1"><%= story.title %></h5>
+                    <p class="mb-1"><%= story.content.substring(0, 100) %>...</p>
+                    <small>By <%= story.author.name %></small>
+                </a>
+            <% }) %>
+        </div>
+        <a href="/" class="btn btn-primary mt-4">Back to Home</a>
+    </div>
+</body>
+</html>

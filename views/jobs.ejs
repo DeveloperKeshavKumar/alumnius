@@ -1,0 +1,25 @@
+<!-- views/jobs.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Postings - Alumni Platform</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Job Postings</h1>
+        <div class="list-group">
+            <% jobs.forEach(job => { %>
+                <a href="/jobs/<%= job._id %>" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1"><%= job.title %></h5>
+                    <p class="mb-1"><%= job.description.substring(0, 100) %>...</p>
+                    <small><%= job.location %> - <%= job.company %></small>
+                </a>
+            <% }) %>
+        </div>
+        <a href="/" class="btn btn-primary mt-4">Back to Home</a>
+    </div>
+</body>
+</html>

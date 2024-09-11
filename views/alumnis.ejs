@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head'); %>
+<body>
+    <%- include('partials/navbar'); %>
+
+    <div class="container mt-5">
+        <h2>Alumni Directory</h2>
+        <ul class="list-group">
+            <% alumnis.forEach(function(alumnus) { %>
+                <li class="list-group-item">
+                    <h5><%= alumnus.name %></h5>
+                    <p>Stream: <%= alumnus.stream %></p>
+                    <p>Occupation: <%= alumnus.occupation %></p>
+                    <a href="alumnis/<%= alumnus._id %>" class="btn btn-info">View Profile</a>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+
+    <%- include('partials/footer'); %>
+</body>
+</html>
